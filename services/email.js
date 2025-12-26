@@ -1,23 +1,33 @@
-import { Resend } from 'resend';
+import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const service = {
   send: async function (to, subject, text) {
     try {
-      const data = await resend.emails.send({
-        from: 'onboarding@resend.dev', 
-        to: to, 
+      const url = 'https://api.brevo.com/v3/smtp/email';
+      
+      const data = {
+        sender: { 
+          name: "Student Project", 
+          email: process.env.EMAIL_FROM
+        },
+        to: [{ email: to }],
         subject: subject,
-        html: `<strong>${text}</strong>`
+        htmlContent: `<strong>${text}</strong>`
+      };
+
+      const response = await axios.post(url, data, {
+        headers: {
+          'api-key': process.env.BREVO_API_KEY,
+          'content-type': 'application/json'
+        }
       });
 
-      console.log('Email sent successfully:', data);
-      return data;
+      console.log('Brevo Email Sent:', response.data);
+      return response.data;
     } catch (error) {
-      console.error('Resend Error:', error);
+      console.error('Brevo Error:', error.response ? error.response.data : error.message);
       throw error;
     }
   }
