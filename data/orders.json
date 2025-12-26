@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "recipient": "Kha Do",
+    "houseNumber": "123",
+    "street": "Nguyễn Trãi",
+    "provinceId": 12,
+    "wardId": 4108
+  },
+  {
+    "id": 2,
+    "recipient": "Trần Thị B",
+    "houseNumber": "123",
+    "street": "Lê Duẩn",
+    "provinceId": 12,
+    "wardId": 4108
+  }
+]
