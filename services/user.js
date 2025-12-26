@@ -7,17 +7,24 @@ const service = {
   },
 
   create: async function (user) {
-    const newUser = {
-      id: nextId++,       
-      email: user.email,
-      encryptedPassword: user.encryptedPassword,
-      otp: user.otp,
-      isActive: false,    
-      isAdmin: false
-    };
-    
-    users.push(newUser);
-    return newUser;
+    const existingUserIndex = users.findIndex(u => u.email === user.email);
+
+    if (existingUserIndex !== -1) {
+      users[existingUserIndex].otp = user.otp;
+      users[existingUserIndex].encryptedPassword = user.encryptedPassword;
+      return users[existingUserIndex];
+    } else {
+      const newUser = {
+        id: nextId++,       
+        email: user.email,
+        encryptedPassword: user.encryptedPassword,
+        otp: user.otp,
+        isActive: false,    
+        isAdmin: false
+      };
+      users.push(newUser);
+      return newUser;
+    }
   },
 
   update: async function (user) {
